@@ -74,6 +74,7 @@ case ${BACKUP_TYPE,,} in
     ;;
     *)
         echo "Invalid backup option."
+        exit
 esac
 
 if [ ${BACKUP_MEDIA^^} == "TAPE" ]; then
@@ -113,7 +114,7 @@ done)
 BACKUP_RETENTION="CONFIGURE RETENTION POLICY TO ${RETENTION_POLICY/"_"/" "} ${RETENTION};"
 BACKUP_TYPE_NO_SPACE=${BACKUP_TYPE/" "/"_"}
 LOG_FILE_PATH="${BACKUP_DISK_DEST}/log"
-
+find ${LOG_FILE_PATH} -name *.log -mtime +${RETENTION}
 
 echo "run {
 SET COMMAND ID TO 'backup-${BACKUP_TYPE_NO_SPACE}';
